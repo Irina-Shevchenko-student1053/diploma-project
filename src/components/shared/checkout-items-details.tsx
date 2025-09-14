@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 import { FC } from "react";
+import { Currency } from "./currency";
 
 interface CheckoutItemsDetailsProps {
   icon?: LucideIcon,
@@ -30,7 +31,9 @@ const CheckoutItemsDetails: FC<CheckoutItemsDetailsProps> = (props) => {
       <span
         className="font-bold text-lg"
       >
-        {value} $
+        <Currency>
+          {value}
+        </Currency>
       </span>
     </div>
   )

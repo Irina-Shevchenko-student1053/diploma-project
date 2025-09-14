@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { CheckoutItemsDetails } from "./checkout-items-details";
 import { Package, Percent, Truck } from "lucide-react";
 import { Button } from "../ui/button";
+import { Currency } from "./currency";
 
 interface CheckoutSidebarProps {
   className?: string,
@@ -34,7 +35,9 @@ const CheckoutSidebar: FC<CheckoutSidebarProps> = (props) => {
         <span
           className="text-4xl font-extrabold"
         >
-          {totalPrice} $
+          <Currency>
+            {totalPrice} 
+          </Currency>
         </span>
       </div>
 
