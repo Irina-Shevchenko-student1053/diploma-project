@@ -31,6 +31,7 @@ model User {
   password         String
   verified         Boolean           @default(false)
   role             UserRole          @default(USER)
+  phone            String?
   provider         String?
   providerId       String?
   cart             Cart?
@@ -108,7 +109,7 @@ model CartItem {
   productItem   ProductItem  @relation(fields: [productItemId], references: [id])
   productItemId String       @unique
   cart          Cart         @relation(fields: [cartId], references: [id])
-  cartId        String       @unique
+  cartId        String
   ingredients   Ingredient[]
 
   createdAt DateTime @default(now())

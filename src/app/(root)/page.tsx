@@ -1,22 +1,19 @@
 import { Container } from "@/components/shared/container";
 import { Filters } from "@/components/shared/filters";
+import { GetSearchParamProps } from "@/components/shared/interfaces/get-search-param";
 import { ProductsGroupList } from "@/components/shared/products-group-list";
 import { Title } from "@/components/shared/title";
 import { TopBar } from "@/components/shared/top-bar";
-import prisma from "@/lib/prisma";
+import { findPizza } from "@/lib/get-search-param";
+import { Suspense } from "react";
 
-export default async function Home() {
-  const categories = await prisma.category.findMany({
-    include: {
-      products: {
-        include: {
-          productItem: true,
-          ingredients: true,
-        }
-      }
+interface HomeProps {
+  searchParams: Promise<GetSearchParamProps>
+}
 
-    }
-  }).then(cat => cat.filter(c => c.products.length > 0))
+export default async function Home(props: HomeProps) {
+  const params = await props.searchParams
+  const categories = await findPizza(params)
 
   return (
     <>
@@ -42,7 +39,9 @@ export default async function Home() {
           <div
             className="min-w-3xs"
           >
-            <Filters />
+            <Suspense>
+              <Filters />
+            </Suspense>
           </div>
 
           <div

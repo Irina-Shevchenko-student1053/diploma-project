@@ -6,9 +6,9 @@ import { Title } from "./title";
 import { ProductCard } from "./product-card";
 import { useIntersection } from 'react-use';
 import { useCategoriesStore } from "./store/categories";
-import { Product, ProductItem } from "@prisma/client";
+import { Ingredient, Product, ProductItem } from "@prisma/client";
 
-type ProductsType = Product & { productItem: ProductItem[] }
+type ProductsType = Product & { productItem: ProductItem[], ingredients: Ingredient[] }
 
 interface ProductsGroupListProps {
   title: string,
@@ -31,7 +31,7 @@ const ProductsGroupList: FC<ProductsGroupListProps> = (props) => {
     if (intersection && intersection?.isIntersecting) {
       setActiveId(categoryId)
     }
-  }, [intersection])
+  }, [intersection, categoryId, setActiveId])
 
   return (
     <div
@@ -56,6 +56,7 @@ const ProductsGroupList: FC<ProductsGroupListProps> = (props) => {
               name={product.name}
               imageUrl={product.imageUrl}
               price={product.productItem[0].price}
+              ingredients={product.ingredients}
             />
           ))
         }

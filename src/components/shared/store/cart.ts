@@ -14,7 +14,7 @@ export interface CartStateProps {
   deleteCartItem: (id: string) => Promise<void>;
 }
 
-export const useCartStore = create<CartStateProps>((set, get) => ({
+export const useCartStore = create<CartStateProps>((set) => ({
   cartItems: [],
   error: false,
   loading: true,
@@ -23,9 +23,11 @@ export const useCartStore = create<CartStateProps>((set, get) => ({
     try {
       set({ loading: true, error: false });
       const data = await fetchCart();
+      console.log()
       set(getCartDetails(data))
-    } catch (error) {
+    } catch (err) {
       set({ error: true })
+      console.log(err)
     } finally {
       set({ loading: false })
     }
@@ -37,6 +39,7 @@ export const useCartStore = create<CartStateProps>((set, get) => ({
       set(getCartDetails(data))
     } catch (err) {
       set({ error: true })
+      console.log(err)
     } finally {
       set({ loading: false })
     }
@@ -48,19 +51,24 @@ export const useCartStore = create<CartStateProps>((set, get) => ({
       set(getCartDetails(data))
     } catch (err) {
       set({ error: true })
+      console.log(err)
     } finally {
       set({ loading: false })
     }
   },
   deleteCartItem: async (id) => {
     try {
-      set({ loading: true, error: false });
+      set((state) => {
+        state.cartItems.find(item => item.id === id)!.disabled = true
+        return ({ loading: true, error: false, cartItems: state.cartItems })
+      });
       const data = await deleteCartItem(id);
       set(getCartDetails(data))
     } catch (err) {
       set({ error: true })
+      console.log(err)
     } finally {
-      set({ loading: false })
+      set((() => ({ loading: false })))
     }
   }
 }))

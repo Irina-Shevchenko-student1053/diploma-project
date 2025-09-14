@@ -5,15 +5,15 @@ import { Button } from "../ui/button";
 import { ProductType } from "./types/product-type";
 
 interface ChooseProductFormProps {
+  price: number,
+  loading: boolean,
   product: ProductType,
-  className?: string
-  onClickAddCart?: () => void,
+  className?: string,
+  onSubmit: (id: string) => void
 }
 
 const ChooseProductForm: FC<ChooseProductFormProps> = (props) => {
-  const { product: { name, imageUrl }, className, onClickAddCart } = props;
-  const textDetaills = "Lorem inpsum";
-  const totalPrice = 500;
+  const { price, loading, product: { name, imageUrl, productItem }, onSubmit, className } = props;
 
   return (
     <div
@@ -37,17 +37,12 @@ const ChooseProductForm: FC<ChooseProductFormProps> = (props) => {
         >
           {name}
         </Title>
-
-        <p
-          className="text-gray-400"
-        >
-          {textDetaills}
-        </p>
-
         <Button
+          loading={loading}
+          onClick={onSubmit.bind(null, productItem[0].id)}
           className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
         >
-          Add to cart {totalPrice}
+          Add to cart {price} $
         </Button>
       </div>
     </div>

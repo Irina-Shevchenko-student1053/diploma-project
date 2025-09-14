@@ -1,5 +1,6 @@
 import { Nunito } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -21,6 +22,7 @@ export default function MainRootLayout({
         className={`${nunito.variable} antialiased`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

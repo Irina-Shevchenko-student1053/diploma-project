@@ -1,3 +1,5 @@
+import { PizzaSize, PizzaType } from "../constants/pizza";
+
 export interface CartItemProps {
   id: string;
   imageUrl: string;
@@ -6,4 +8,6 @@ export interface CartItemProps {
   price: number;
   quantity: number;
   disabled?: boolean;
+  pizzaType?: PizzaType;
+  pizzaSize?: PizzaSize;
 }

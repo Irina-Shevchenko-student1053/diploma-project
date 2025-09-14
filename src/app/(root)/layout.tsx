@@ -8,8 +8,8 @@ interface RootLayoutProps {
 }
 
 export const metadata: Metadata = {
-  title: "Next Pizza | Main",
-  description: "Next Pizza",
+  title: "Pizza | Home",
+  description: "Pizza",
 };
 
 const RootLayout: FC<RootLayoutProps> = (props) => {

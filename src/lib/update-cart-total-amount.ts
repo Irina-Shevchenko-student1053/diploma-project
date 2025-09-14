@@ -1,4 +1,3 @@
-import { CartDTO } from "@/components/shared/services/dto/cart.dto";
 import { calcCartItemTotalPrice } from "./calc-cart-item-total-price";
 import prisma from "./prisma";
 

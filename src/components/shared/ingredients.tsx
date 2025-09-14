@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Ingredient } from "@prisma/client";
 import { CircleCheck } from "lucide-react";
 import { useSet } from 'react-use';
-import { FC, useCallback, useEffect } from "react";
+import { FC, useCallback } from "react";
 
 interface IngredientsProps {
   className?: string,

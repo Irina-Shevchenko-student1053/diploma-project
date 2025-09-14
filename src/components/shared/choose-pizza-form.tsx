@@ -7,28 +7,25 @@ import { Button } from "../ui/button";
 import { ProductType } from "./types/product-type";
 import { PizzaImage } from "./pizza-image";
 import { GroupVariants } from "./group-variants";
-import { mapPizzaType, PizzaSize, pizzaSize, PizzaType, pizzaTypes } from "./constants/pizza";
+import { mapPizzaType, PizzaSize, PizzaType } from "./constants/pizza";
 import { Ingredients } from "./ingredients";
 import { useChoosePizza } from "./hooks/use-choose-pizza";
 
 interface ChoosePizzaFormProps {
+  loading: boolean,
   product: ProductType,
   className?: string
-  onClickAddCart?: () => void,
+  onSubmit?: (productItemId: string, ingredientsId: string[]) => void,
 }
 
 const ChoosePizzaForm: FC<ChoosePizzaFormProps> = (props) => {
-  const { product: { name, imageUrl, ingredients, productItem }, className, onClickAddCart } = props;
-  const { size, type, totalPrice, availablePizzaTypes, availablePizzaSizes, selectedIngredients, setSize, setType, setSelectedIngredients } = useChoosePizza({ productItem })
+  const { loading, product: { name, imageUrl, ingredients, productItem }, className, onSubmit } = props;
+  const { size, type, totalPrice, currentItemId, availablePizzaTypes, availablePizzaSizes, selectedIngredients, setSize, setType, setSelectedIngredients } = useChoosePizza({ productItem })
 
   const textDetaills = `${size} cm, ${mapPizzaType[type]} pizza`;
 
   const handlerClick = () => {
-    console.log({
-      size,
-      type,
-      ingredients: selectedIngredients
-    })
+    onSubmit!(currentItemId!, selectedIngredients.map(ingredient => ingredient.id))
   }
 
   return (
@@ -85,9 +82,10 @@ const ChoosePizzaForm: FC<ChoosePizzaFormProps> = (props) => {
 
         <Button
           onClick={handlerClick}
+          loading={loading}
           className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
         >
-          Add to cart {totalPrice}
+          Add to cart {totalPrice} $
         </Button>
       </div>
     </div>

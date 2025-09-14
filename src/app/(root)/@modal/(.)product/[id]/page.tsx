@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { notFound } from "next/navigation";
 
 interface ProductIdModalPage {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 const ProductIdModalPage: NextPage<ProductIdModalPage> = async (props) => {

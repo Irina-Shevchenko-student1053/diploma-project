@@ -1,12 +1,11 @@
 
 import { mapPizzaType, PizzaSize, PizzaType } from '@/components/shared/constants/pizza';
 import { CartStateItem } from './get-cart-details';
-import { ProductItemType } from '@/components/shared/types/product-type';
 
 export const getCartItemDetails = (
   ingredients: CartStateItem['ingredients'],
   pizzaType?: PizzaType,
-  pizzaSize?: PizzaSize | null,
+  pizzaSize?: PizzaSize,
 ): string => {
   const details = [];
 

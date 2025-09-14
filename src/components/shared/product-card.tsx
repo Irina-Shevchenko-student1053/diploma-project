@@ -1,9 +1,13 @@
+"use client"
+
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FC } from "react";
 import { Title } from "./title";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
+import { Ingredient } from "@prisma/client";
+import { Currency } from "./currency";
 
 interface ProductCardProps {
   id: string,
@@ -11,17 +15,19 @@ interface ProductCardProps {
   price: number,
   imageUrl: string,
   className?: string,
+  ingredients?: Ingredient[]
 }
 
 const ProductCard: FC<ProductCardProps> = (props) => {
-  const { id, name, price, imageUrl, className, } = props;
+  const { id, name, price, imageUrl, className, ingredients } = props;
 
   return (
     <div
-      className={cn(className)}
+      className={`${cn(className)} h-full`}
     >
       <Link
         href={`/product/${id}`}
+        className="flex flex-col justify-between h-full"
       >
         <div
           className="flex justify-center p-6 bg-secondary rounded-lg h-[260px]"
@@ -40,11 +46,16 @@ const ProductCard: FC<ProductCardProps> = (props) => {
           {name}
         </Title>
 
-        <p
-          className="text-sm text-gray-400"
-        >
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur cupiditate ipsum quibusdam incidunt eius nam sunt labore minus minima fugit tempora, optio, saepe quam possimus quidem voluptates. Dolores, eum beatae.
-        </p>
+        {
+          !!ingredients?.length && (
+            <p
+              className="text-sm text-gray-400"
+            >
+              {ingredients?.map(ingredient => ingredient.name).join(", ")}
+            </p>
+          )
+        }
+
 
         <div
           className="flex justify-between items-center mt-4"
@@ -52,7 +63,10 @@ const ProductCard: FC<ProductCardProps> = (props) => {
           <span
             className="text-[20px]"
           >
-            from <b>{price}</b> $
+            from
+            <b className="pl-2">
+              <Currency>{price}</Currency>
+            </b>
           </span>
 
           <Button

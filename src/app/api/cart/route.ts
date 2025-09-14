@@ -51,9 +51,17 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    // This code must be removed after testing.
+    const user = await prisma.user.findUnique({
+      where: { email: "alice@prisma.io" },
+      include: {
+        cart: true,
+      }
+    });
+
     const data = (await req.json()) as CreateCartItemValues
     const token = req.cookies.get("cartToken")?.value;
-    const userCart = await findOrCreateCart(token);
+    const userCart = user?.cart ?? await findOrCreateCart(token);
 
     const findCartItem = await prisma.cartItem.findFirst({
       where: {
@@ -64,8 +72,11 @@ export async function POST(req: NextRequest) {
             id: {
               in: data.ingredients,
             }
-          }
+          },
         }
+      },
+      include: {
+        ingredients: true,
       }
     })
 
@@ -78,16 +89,16 @@ export async function POST(req: NextRequest) {
           quantity: findCartItem.quantity + 1
         }
       })
+    } else {
+      await prisma.cartItem.create({
+        data: {
+          cartId: userCart.id,
+          quantity: 1,
+          ingredients: { connect: data.ingredients?.map((id) => ({ id })) },
+          productItemId: data.productItemId,
+        }
+      })
     }
-
-    await prisma.cartItem.create({
-      data: {
-        cartId: userCart.id,
-        quantity: 1,
-        ingredients: { connect: data.ingredients?.map((id) => ({ id })) },
-        productItemId: data.productItemId,
-      }
-    })
 
     const updateUserCart = await updateCartTotalAmount(userCart.token);
     const response = NextResponse.json(updateUserCart)

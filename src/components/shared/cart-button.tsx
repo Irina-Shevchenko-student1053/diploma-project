@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { ArrowRight, ShoppingCart } from 'lucide-react';
 import { CartDrawer } from './cart-drawer';
@@ -14,11 +14,7 @@ interface Props {
 }
 
 export const CartButton: React.FC<Props> = ({ className }) => {
-  const { cartItems, loading, totalAmount, fetchCartItems } = useCartStore();
-
-  useEffect(() => {
-    fetchCartItems()
-  }, [fetchCartItems])
+  const { cartItems, loading, totalAmount } = useCartStore();
 
   return (
     <CartDrawer>

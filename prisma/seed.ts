@@ -57,10 +57,6 @@ async function createSeed() {
 
   const [userOne, userTwo] = await Promise.all(userData.map(user => prisma.user.create({ data: user })))
   const [Pizzas, Breakfast, Snacks, Cocktails, Drinks] = await Promise.all(categoriesData.map((category) => prisma.category.create({ data: category })));
-  const product = await Promise.all(
-    [...addId(productsData.slice(0, 4), Breakfast.id), ...addId(productsData.slice(4, 8), Snacks.id), ...addId(productsData.slice(8, 13), Cocktails.id), ...addId(productsData.slice(13), Drinks.id)]
-      .map((product: Prisma.ProductCreateInput) => prisma.product.create({ data: product }))
-  )
   const [pizza1, pizza2, pizza3] = await Promise.all([
     prisma.product.create({
       data: {
@@ -74,7 +70,7 @@ async function createSeed() {
     }),
     prisma.product.create({
       data: {
-        name: 'Cheese Pizza',
+        name: 'Street Pizza',
         imageUrl: '/pizzas/11EE7D610CF7E265B7C72BE5AE757CA7.webp',
         categoryId: Pizzas.id,
         ingredients: {
@@ -96,7 +92,16 @@ async function createSeed() {
         },
       },
     })
-  ])
+  ]);
+  const product = await Promise.all(
+    [
+      ...addId(productsData.slice(0, 4), Breakfast.id),
+      ...addId(productsData.slice(4, 8), Snacks.id),
+      ...addId(productsData.slice(8, 13), Cocktails.id),
+      ...addId(productsData.slice(13), Drinks.id),
+    ]
+      .map((product: Prisma.ProductCreateInput) => prisma.product.create({ data: product }))
+  )
 
   const [productItem] = await Promise.all([
     generateProductItem({ productId: pizza1.id, pizzaType: 1, size: 20 }),

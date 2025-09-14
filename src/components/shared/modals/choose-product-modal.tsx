@@ -1,11 +1,10 @@
 "use client"
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import { useRouter } from "next/navigation";
 import { ProductType } from "../types/product-type";
-import { ChooseProductForm } from "../choose-product-form";
-import { ChoosePizzaForm } from "../choose-pizza-form";
+import { ChooseBase } from "../choose-base";
 
 interface ChooseProductModalProps {
   product: ProductType,
@@ -14,20 +13,6 @@ interface ChooseProductModalProps {
 const ChooseProductModal: FC<ChooseProductModalProps> = (props) => {
   const { product } = props;
   const router = useRouter();
-  const isPizzaForm = !!product.productItem[0].pizzaType;
-
-  const handlerProduct = useMemo(() => { //what best to use here  useMemo or useCallback?
-    if (isPizzaForm) return (
-      <ChoosePizzaForm
-        product={product}
-      />
-    )
-    return (
-      <ChooseProductForm
-        product={product}
-      />
-    )
-  }, [product, isPizzaForm])
 
   return (
     <Dialog
@@ -42,7 +27,9 @@ const ChooseProductModal: FC<ChooseProductModalProps> = (props) => {
           maxWidth: '1060px',
         }}
       >
-        {handlerProduct}
+        <ChooseBase
+          product={product}
+        />
       </DialogContent>
     </Dialog>
   )
