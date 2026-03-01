@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { WhiteBlock } from "../white-block";
-import { Input } from "@/components/ui/input";
 import { FormInput } from "../form/form-input";
+import { FormPhone } from "../form/form-phone";
 
 interface CheckoutPersonalFormProps {
   className?: string
@@ -12,35 +12,42 @@ const CheckoutPersonalForm: FC<CheckoutPersonalFormProps> = (props) => {
 
   return (
     <WhiteBlock
-      title="2. Personal data"
+      title="2. Персональні дані"
       className={className}
     >
       <div
-        className="grid grid-cols-2 gap-5"
+        className="
+          grid
+          grid-cols-1
+          gap-4
+
+          sm:gap-5
+          md:grid-cols-2
+          md:gap-6
+        "
       >
-        <Input
-          name="firtsName"
+        <FormInput
+          name="fullName"
+          label="Ім'я"
           type="text"
           className="text-base"
-          placeholder="Name"
+          placeholder="Ім'я"
         />
-        <Input
-          name="lastName"
-          type="text"
-          className="text-base"
-          placeholder="Last Name"
-        />
-        <Input
+
+        <FormInput
           name="email"
+          label="Електронна пошта"
           type="email"
           className="text-base"
-          placeholder="Name"
+          placeholder="E-mail"
         />
-        <FormInput
+
+        <FormPhone
           name="phone"
-          type="text"
-          className="text-base"
-          placeholder="Phone"
+          label="Телефон"
+          type="tel"
+          required
+          placeholder="+38 (0__) ___-__-__"
         />
       </div>
     </WhiteBlock>

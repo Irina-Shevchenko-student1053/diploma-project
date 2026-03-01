@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { WhiteBlock } from "../white-block";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { FormTextarea } from "../form/form-textarea";
+import { FromStreet } from "../form/from-street";
 
 interface CheckoutAddressFormProps {
   className?: string
@@ -12,22 +12,30 @@ const CheckoutAddressForm: FC<CheckoutAddressFormProps> = (props) => {
 
   return (
     <WhiteBlock
-      title="3. Delivery address"
+      title="3. Адреса доставки"
       className={className}
     >
       <div
-        className="flex flex-col gap-5"
+        className="
+          flex flex-col
+          gap-4
+
+          sm:gap-5
+          md:gap-6
+        "
       >
-        <Input
+        <FromStreet
           name="address"
           type="text"
           className="text-base"
-          placeholder="Address"
+          placeholder="Адреса"
         />
-        <Textarea
-          rows={5}
-          className="text-base"
-          placeholder="Comments on orders"
+
+        <FormTextarea
+          rows={4}
+          name="comment"
+          className="text-base resize-none"
+          placeholder="Коментарі до замовлень"
         />
       </div>
     </WhiteBlock>
